@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foldtutorial/widgets/form_input_field.dart';
 
 class Item {
   String itemName;
@@ -13,8 +14,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  static String newItem = '';
-  static String newPrice = '';
   List<Item> items = [];
 
   final _formKey = GlobalKey<FormState>();
@@ -34,6 +33,7 @@ class _DashboardState extends State<Dashboard> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Form(
             key: _formKey,
@@ -52,17 +52,16 @@ class _DashboardState extends State<Dashboard> {
                     Expanded(
                       child: FormInputField(
                         itemController: _priceController,
-                        hintText: 'price',
+                        hintText: 'Price',
                         validateMessage: 'Please provide the price',
                       ),
                     ),
                     IconButton(
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          newItem = _itemController.text;
-                          newPrice = _priceController.text;
-                          items.add(
-                              Item(itemName: newItem, itemPrice: newPrice));
+                          items.add(Item(
+                              itemName: _itemController.text,
+                              itemPrice: _priceController.text));
                           setState(() {
                             _itemController.clear();
                             _priceController.clear();
@@ -83,13 +82,15 @@ class _DashboardState extends State<Dashboard> {
             height: 20,
           ),
           DataTable(
-            columnSpacing: MediaQuery.of(context).size.width * 0.6,
             columns: [
               DataColumn(
                 label: Text('Item'),
               ),
               DataColumn(
                 label: Text('Price'),
+              ),
+              DataColumn(
+                label: Text('Total'),
               ),
             ],
             rows: items
@@ -98,6 +99,9 @@ class _DashboardState extends State<Dashboard> {
                     cells: [
                       DataCell(
                         Text(element.itemName),
+                      ),
+                      DataCell(
+                        Text(element.itemPrice),
                       ),
                       DataCell(
                         Text(element.itemPrice),
@@ -117,43 +121,5 @@ class _DashboardState extends State<Dashboard> {
     super.dispose();
     _priceController.dispose();
     _itemController.dispose();
-  }
-}
-
-class FormInputField extends StatelessWidget {
-  const FormInputField({
-    Key key,
-    @required TextEditingController itemController,
-    this.hintText,
-    this.validateMessage,
-  })  : _controller = itemController,
-        super(key: key);
-
-  final TextEditingController _controller;
-  final String hintText;
-  final String validateMessage;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: _controller,
-      decoration: InputDecoration(
-          hintText: hintText,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(5),
-            ),
-          ),
-          suffixIcon: IconButton(
-            onPressed: () => _controller.clear(),
-            icon: Icon(Icons.clear),
-          )),
-      validator: (value) {
-        if (value.isEmpty) {
-          return validateMessage;
-        }
-        return null;
-      },
-    );
   }
 }

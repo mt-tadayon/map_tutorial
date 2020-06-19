@@ -81,36 +81,35 @@ class _DashboardState extends State<Dashboard> {
           SizedBox(
             height: 20,
           ),
-          DataTable(
-            columns: [
-              DataColumn(
-                label: Text('Item'),
-              ),
-              DataColumn(
-                label: Text('Price'),
-              ),
-              DataColumn(
-                label: Text('Total'),
-              ),
-            ],
-            rows: items
-                .map(
-                  (element) => DataRow(
-                    cells: [
-                      DataCell(
-                        Text(element.itemName),
-                      ),
-                      DataCell(
-                        Text(element.itemPrice),
-                      ),
-                      DataCell(
-                        Text(element.itemPrice),
-                      ),
-                    ],
+          DataTable(columns: [
+            DataColumn(
+              label: Text('Item'),
+            ),
+            DataColumn(
+              label: Text('Price'),
+            ),
+          ], rows: [
+            ...items.map(
+              (element) => DataRow(
+                cells: [
+                  DataCell(
+                    Text(element.itemName),
                   ),
-                )
-                .toList(),
-          )
+                  DataCell(
+                    Text(element.itemPrice),
+                  ),
+                ],
+              ),
+            ),
+            DataRow(cells: [
+              DataCell(Text('Total amount')),
+              DataCell(
+                Text(items
+                    .fold(0, (prev, el) => prev + double.parse(el.itemPrice))
+                    .toString()),
+              )
+            ])
+          ])
         ],
       ),
     );

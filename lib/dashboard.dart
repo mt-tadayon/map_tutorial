@@ -39,26 +39,10 @@ class _DashboardState extends State<Dashboard> {
             key: _formKey,
             child: Column(
               children: [
-                TextFormField(
-                  controller: _itemController,
-                  decoration: InputDecoration(
-                    hintText: 'Item',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
-                    ),
-                    suffixIcon: IconButton(
-                      onPressed: () => _itemController.clear(),
-                      icon: Icon(Icons.clear),
-                    )
-                  ),
-                  validator: (value) {
-                    if(value.isEmpty) {
-                      return 'Please provide item name';
-                    }
-                    return null;
-                  },
+                FormInputField(
+                  itemController: _itemController,
+                  hintText: 'Item',
+                  validateMessage: 'Please provide the item name',
                 ),
                 SizedBox(
                   height: 10,
@@ -66,34 +50,19 @@ class _DashboardState extends State<Dashboard> {
                 Row(
                   children: [
                     Expanded(
-                      child: TextFormField(
-                        controller: _priceController,
-                        decoration: InputDecoration(
-                          hintText: 'Price',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                          ),
-                            suffixIcon: IconButton(
-                              onPressed: () => _priceController.clear(),
-                              icon: Icon(Icons.clear),
-                            )
-                        ),
-                        validator: (value) {
-                          if(value.isEmpty) {
-                            return 'Please provide price';
-                          }
-                          return null;
-                        },
+                      child: FormInputField(
+                        itemController: _priceController,
+                        hintText: 'price',
+                        validateMessage: 'Please provide the price',
                       ),
                     ),
                     IconButton(
                       onPressed: () {
-                        if(_formKey.currentState.validate()) {
+                        if (_formKey.currentState.validate()) {
                           newItem = _itemController.text;
                           newPrice = _priceController.text;
-                          items.add(Item(itemName: newItem, itemPrice: newPrice));
+                          items.add(
+                              Item(itemName: newItem, itemPrice: newPrice));
                           setState(() {
                             _itemController.clear();
                             _priceController.clear();
@@ -148,5 +117,43 @@ class _DashboardState extends State<Dashboard> {
     super.dispose();
     _priceController.dispose();
     _itemController.dispose();
+  }
+}
+
+class FormInputField extends StatelessWidget {
+  const FormInputField({
+    Key key,
+    @required TextEditingController itemController,
+    this.hintText,
+    this.validateMessage,
+  })  : _controller = itemController,
+        super(key: key);
+
+  final TextEditingController _controller;
+  final String hintText;
+  final String validateMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _controller,
+      decoration: InputDecoration(
+          hintText: hintText,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
+          suffixIcon: IconButton(
+            onPressed: () => _controller.clear(),
+            icon: Icon(Icons.clear),
+          )),
+      validator: (value) {
+        if (value.isEmpty) {
+          return validateMessage;
+        }
+        return null;
+      },
+    );
   }
 }

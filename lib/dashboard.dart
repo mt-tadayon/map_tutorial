@@ -3,7 +3,7 @@ import 'package:foldtutorial/widgets/form_input_field.dart';
 
 class Item {
   String itemName;
-  String itemPrice;
+  double itemPrice;
 
   Item({this.itemName, this.itemPrice});
 }
@@ -43,6 +43,7 @@ class _DashboardState extends State<Dashboard> {
                   itemController: _itemController,
                   hintText: 'Item',
                   validateMessage: 'Please provide the item name',
+                  keyboardType: TextInputType.text,
                 ),
                 SizedBox(
                   height: 10,
@@ -54,6 +55,9 @@ class _DashboardState extends State<Dashboard> {
                         itemController: _priceController,
                         hintText: 'Price',
                         validateMessage: 'Please provide the price',
+                        keyboardType: TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
                       ),
                     ),
                     IconButton(
@@ -61,7 +65,7 @@ class _DashboardState extends State<Dashboard> {
                         if (_formKey.currentState.validate()) {
                           items.add(Item(
                               itemName: _itemController.text,
-                              itemPrice: _priceController.text));
+                              itemPrice: double.parse(_priceController.text)));
                           setState(() {
                             _itemController.clear();
                             _priceController.clear();
@@ -96,7 +100,7 @@ class _DashboardState extends State<Dashboard> {
                     Text(element.itemName),
                   ),
                   DataCell(
-                    Text(element.itemPrice),
+                    Text(element.itemPrice.toString()),
                   ),
                 ],
               ),
@@ -107,8 +111,9 @@ class _DashboardState extends State<Dashboard> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               )),
               DataCell(
+                ///ToDo: Calculate the total price for all items
                 Text(items
-                    .fold(0, (prev, el) => prev + double.parse(el.itemPrice))
+                    .fold(0, (prev, el) => prev + el.itemPrice)
                     .toString()),
               )
             ])

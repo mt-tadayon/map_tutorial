@@ -5,18 +5,20 @@ class FormInputField extends StatelessWidget {
     Key key,
     @required TextEditingController itemController,
     this.hintText,
-    this.validateMessage,
+    this.validateMessage, this.keyboardType,
   })  : _controller = itemController,
         super(key: key);
 
   final TextEditingController _controller;
   final String hintText;
   final String validateMessage;
+  final TextInputType keyboardType;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: _controller,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
           hintText: hintText,
           border: OutlineInputBorder(

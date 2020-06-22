@@ -102,7 +102,10 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
             DataRow(cells: [
-              DataCell(Text('Total amount')),
+              DataCell(Text(
+                'Total amount',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
               DataCell(
                 Text(items
                     .fold(0, (prev, el) => prev + double.parse(el.itemPrice))

@@ -1,6 +1,10 @@
-# foldtutorial
+<a href="https://www.buymeacoffee.com/FlutterExp" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
-A new Flutter application.
+# List Method: .fold()
+
+This is an application with a Form and a DataTable. You can add new items with a price in the InputField and see all items with the total amount in the table.
+- [You can find the link to the YouTube video here.](https://youtu.be/af3dqyDiYdg)
+- [The link to DartPad with three example of using fold method](https://dartpad.dev/a64685664fccd0c9462123a5a06b38a7)
 
 ## Getting Started
 

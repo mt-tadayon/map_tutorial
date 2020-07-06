@@ -86,19 +86,18 @@ class _DashboardState extends State<Dashboard> {
           SizedBox(
             height: 20,
           ),
-          DataTable(sortColumnIndex: 1, sortAscending: sort, columns: [
+          DataTable(
+              sortColumnIndex: 1,
+              sortAscending: sort,
+              columns: [
             DataColumn(
               label: Text('Item'),
             ),
             DataColumn(
               numeric: true,
-
               ///TODO: sort the price column ascending and descending
-              onSort: (_, bool ascending) {
-                print(_);
-                print(ascending);
-                print(sort);
-                if (ascending) {
+              onSort: (int index, bool ascending) {
+                if(ascending) {
                   items.sort((a, b) => b.itemPrice.compareTo(a.itemPrice));
                 } else {
                   items.sort((a, b) => a.itemPrice.compareTo(b.itemPrice));

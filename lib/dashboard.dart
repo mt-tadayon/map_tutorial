@@ -15,6 +15,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   List<Item> items = [];
+  bool sort = false;
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController _itemController;
@@ -85,12 +86,38 @@ class _DashboardState extends State<Dashboard> {
           SizedBox(
             height: 20,
           ),
-          DataTable(columns: [
+          DataTable(sortColumnIndex: 1, sortAscending: sort, columns: [
             DataColumn(
               label: Text('Item'),
             ),
             DataColumn(
-              label: Text('Price'),
+              numeric: true,
+
+              ///TODO: sort the price column ascending and descending
+              onSort: (_, bool ascending) {
+                print(_);
+                print(ascending);
+                print(sort);
+                if (ascending) {
+                  items.sort((a, b) => b.itemPrice.compareTo(a.itemPrice));
+                } else {
+                  items.sort((a, b) => a.itemPrice.compareTo(b.itemPrice));
+                }
+                setState(() {
+                  sort = ascending;
+                });
+              },
+              label: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('Price'),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ], rows: [
             ...items.map(
@@ -111,7 +138,6 @@ class _DashboardState extends State<Dashboard> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               )),
               DataCell(
-                ///ToDo: Calculate the total price for all items
                 Text(items
                     .fold(0, (prev, el) => prev + el.itemPrice)
                     .toString()),

@@ -95,7 +95,6 @@ class _DashboardState extends State<Dashboard> {
             ),
             DataColumn(
               numeric: true,
-              ///TODO: sort the price column ascending and descending
               onSort: (int index, bool ascending) {
                 if(ascending) {
                   items.sort((a, b) => b.itemPrice.compareTo(a.itemPrice));
@@ -119,6 +118,7 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
           ], rows: [
+            // TODO: Create a row for each item's name and item's price in the table
             ...items.map(
               (element) => DataRow(
                 cells: [

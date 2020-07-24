@@ -21,6 +21,20 @@ class _DashboardState extends State<Dashboard> {
   TextEditingController _itemController;
   TextEditingController _priceController;
 
+  Iterable<DataRow> rowTable(List<Item> items) {
+    Iterable<DataRow> dataRows = items.map((item) {
+      return DataRow(cells: [
+        DataCell(
+          Text(item.itemName),
+        ),
+        DataCell(
+          Text(item.itemPrice.toString()),
+        )
+      ]);
+    });
+    return dataRows;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -86,17 +100,14 @@ class _DashboardState extends State<Dashboard> {
           SizedBox(
             height: 20,
           ),
-          DataTable(
-              sortColumnIndex: 1,
-              sortAscending: sort,
-              columns: [
+          DataTable(sortColumnIndex: 1, sortAscending: sort, columns: [
             DataColumn(
               label: Text('Item'),
             ),
             DataColumn(
               numeric: true,
               onSort: (int index, bool ascending) {
-                if(ascending) {
+                if (ascending) {
                   items.sort((a, b) => b.itemPrice.compareTo(a.itemPrice));
                 } else {
                   items.sort((a, b) => a.itemPrice.compareTo(b.itemPrice));
@@ -117,32 +128,10 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
             ),
-          ], rows: [
+          ], rows:
             // TODO: Create a row for each item's name and item's price in the table
-            ...items.map(
-              (element) => DataRow(
-                cells: [
-                  DataCell(
-                    Text(element.itemName),
-                  ),
-                  DataCell(
-                    Text(element.itemPrice.toString()),
-                  ),
-                ],
-              ),
-            ),
-            DataRow(cells: [
-              DataCell(Text(
-                'Total amount',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
-              DataCell(
-                Text(items
-                    .fold(0, (prev, el) => prev + el.itemPrice)
-                    .toString()),
-              )
-            ])
-          ])
+            rowTable(items).toList(),
+          )
         ],
       ),
     );

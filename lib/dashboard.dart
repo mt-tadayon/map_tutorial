@@ -21,20 +21,6 @@ class _DashboardState extends State<Dashboard> {
   TextEditingController _itemController;
   TextEditingController _priceController;
 
-  Iterable<DataRow> rowTable(List<Item> items) {
-    Iterable<DataRow> dataRows = items.map((item) {
-      return DataRow(cells: [
-        DataCell(
-          Text(item.itemName),
-        ),
-        DataCell(
-          Text(item.itemPrice.toString()),
-        )
-      ]);
-    });
-    return dataRows;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -100,37 +86,42 @@ class _DashboardState extends State<Dashboard> {
           SizedBox(
             height: 20,
           ),
-          DataTable(sortColumnIndex: 1, sortAscending: sort, columns: [
-            DataColumn(
-              label: Text('Item'),
-            ),
-            DataColumn(
-              numeric: true,
-              onSort: (int index, bool ascending) {
-                if (ascending) {
-                  items.sort((a, b) => b.itemPrice.compareTo(a.itemPrice));
-                } else {
-                  items.sort((a, b) => a.itemPrice.compareTo(b.itemPrice));
-                }
-                setState(() {
-                  sort = ascending;
-                });
-              },
-              label: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text('Price'),
-                    ],
+          DataTable(
+            sortColumnIndex: 1,
+            sortAscending: sort,
+            columns: [
+              DataColumn(
+                label: Text('Item'),
+              ),
+              DataColumn(
+                numeric: true,
+                onSort: (int index, bool ascending) {
+                  if (ascending) {
+                    items.sort((a, b) => b.itemPrice.compareTo(a.itemPrice));
+                  } else {
+                    items.sort((a, b) => a.itemPrice.compareTo(b.itemPrice));
+                  }
+                  setState(() {
+                    sort = ascending;
+                  });
+                },
+                label: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Price'),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ], rows:
-            // TODO: Create a row for each item's name and item's price in the table
-            rowTable(items).toList(),
+            ],
+            rows:
+                // TODO: Create a row for each item's name and item's price in the table
+
+                mapItemToDataRows(items).toList(),
           )
         ],
       ),
@@ -142,5 +133,22 @@ class _DashboardState extends State<Dashboard> {
     super.dispose();
     _priceController.dispose();
     _itemController.dispose();
+  }
+
+  Iterable<DataRow> mapItemToDataRows(List<Item> items) {
+    Iterable<DataRow> dataRows = items.map((item) {
+      return DataRow(
+          cells: [
+        DataCell(
+          Text(item.itemName),
+        ),
+        DataCell(
+          Text(
+            item.itemPrice.toString(),
+          ),
+        ),
+      ]);
+    });
+    return dataRows;
   }
 }

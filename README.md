@@ -3,7 +3,7 @@
 # List Method: .map()
 
 This is an application with a Form and a DataTable. You can add new items with a price in the InputField and see all items with the total amount in the table.
-- [You can find the link to the YouTube video here.]()
+- [You can find the link to the YouTube video here.](https://youtu.be/6xWVWDvmqeU)
 - [The link to DartPad with three example of using map method](https://dartpad.dev/762550ff944018d504f038a73f369681)
 
 ## Getting Started
